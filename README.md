@@ -26,6 +26,6 @@ $Data = $Client->FetchAsJSON(); // array or NULL.
 // fetching data expecting the remote to be valid html. returns a Document on
 // success or null on failure.
 
-$HTML = $client->FetchAsHTML(); // Browser\Document or NULL.
+$HTML = $Client->FetchAsHTML(); // Browser\Document or NULL.
 ```
 
