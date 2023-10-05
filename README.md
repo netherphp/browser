@@ -1,0 +1,2 @@
+# browser
+Lightweight browser class
