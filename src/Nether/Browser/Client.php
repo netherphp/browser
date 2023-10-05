@@ -2,7 +2,16 @@
 
 namespace Nether\Browser;
 
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
+
 use Nether\Common;
+
+use CurlHandle;
+use Exception;
+
+////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////
 
 class Client
 extends Common\Prototype {
@@ -19,16 +28,16 @@ extends Common\Prototype {
 
 	////////
 
-	public int
+	protected int
 	$Via = self::ViaFileGetContents;
 
-	public string
+	protected string
 	$Method = self::GET;
 
-	public ?string
-	$UA = NULL;
+	protected ?string
+	$UserAgent = NULL;
 
-	public ?string
+	protected ?string
 	$URL = NULL;
 
 	////////////////////////////////////////////////////////////////
@@ -38,19 +47,22 @@ extends Common\Prototype {
 	OnReady(Common\Prototype\ConstructArgs $Args):
 	void {
 
-		$this->PrepareUA();
+		$this->PrepareUserAgent();
 
 		return;
 	}
 
 	protected function
-	PrepareUA():
+	PrepareUserAgent():
 	void {
 
-		if($this->UA !== NULL)
+		if($this->UserAgent !== NULL)
 		return;
 
-		$this->UA = (
+		// read the configured default user agent strings if it has
+		// not already been defined via argument.
+
+		$this->UserAgent = (
 			Library::Get(Key::ConfUserAgent)
 			?: Key::DefaultUserAgent
 		);
@@ -66,8 +78,13 @@ extends Common\Prototype {
 	GenerateStreamContext():
 	mixed {
 
+		// @todo 2023-10-05 at some point i am going to run into a case
+		// where i need it to ignore bad ssl to get a job done. that should
+		// be set as a flag on this object which will then define the
+		// various context options as multiple are required.
+
 		$Opts = [
-			'http' => [ 'method' => $this->Method, 'user_agent' => $this->UA ],
+			'http' => [ 'method' => $this->Method, 'user_agent' => $this->UserAgent ],
 			'ssl'  => [ ]
 		];
 
@@ -75,7 +92,23 @@ extends Common\Prototype {
 
 		];
 
-		$CTX = stream_context_create($Opts, $MoreOpts);
+		return stream_context_create($Opts, $MoreOpts);
+	}
+
+	#[Common\Meta\Info('Generate a cURL Context for browser as configured.')]
+	public function
+	GenerateCurlContext():
+	CurlHandle {
+
+		// @todo 2023-10-05 at some point i am going to run into a case
+		// where i need it to ignore bad ssl to get a job done. that should
+		// be set as a flag on this object which will then define the
+		// various context options as multiple are required.
+
+		$CTX = curl_init($this->URL);
+		curl_setopt($CTX, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($CTX, CURLOPT_FOLLOWLOCATION, TRUE);
+		curl_setopt($CTX, CURLOPT_USERAGENT, $this->UserAgent);
 
 		return $CTX;
 	}
@@ -87,10 +120,10 @@ extends Common\Prototype {
 
 		$Output = match($this->Via) {
 			static::ViaCURL
-			=> $this->GetViaCURL(),
+			=> $this->FetchViaCURL(),
 
 			static::ViaFileGetContents
-			=> $this->GetViaFileGetContents(),
+			=> $this->FetchViaFileGetContents(),
 
 			default
 			=> NULL
@@ -99,9 +132,25 @@ extends Common\Prototype {
 		return $Output;
 	}
 
+	#[Common\Meta\Info('Fetch and digest data from the remote as HTML.')]
+	public function
+	FetchAsHTML():
+	Document {
+
+		try {
+			$Doc = Document::FromHTML($this->Fetch());
+		}
+
+		catch(Exception $Err) {
+			throw $Err;
+		}
+
+		return $Doc;
+	}
+
 	#[Common\Meta\Info('Fetch and digest data from the remote as JSON.')]
 	public function
-	FetchJSON():
+	FetchAsJSON():
 	?array {
 
 		$JSON = $this->Fetch();
@@ -117,17 +166,27 @@ extends Common\Prototype {
 		return $Data;
 	}
 
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+
 	#[Common\Meta\Info('Fetch via cURL.')]
 	public function
-	GetViaCURL():
+	FetchViaCURL():
 	?string {
 
-		return NULL;
+		$CTX = $this->GenerateCurlContext();
+		$Data = curl_exec($CTX);
+		curl_close($CTX);
+
+		if(curl_errno($CTX) !== 0)
+		throw new Error\CertError(curl_error($CTX));
+
+		return $Data;
 	}
 
 	#[Common\Meta\Info('Fetch via native file_get_contents.')]
 	public function
-	GetViaFileGetContents():
+	FetchViaFileGetContents():
 	?string {
 
 		$CTX = $this->GenerateStreamContext();
@@ -150,7 +209,7 @@ extends Common\Prototype {
 	GetUserAgent():
 	?string {
 
-		return $this->UA;
+		return $this->UserAgent;
 	}
 
 	public function
@@ -189,10 +248,10 @@ extends Common\Prototype {
 	}
 
 	public function
-	SetUserAgent(string $UA):
+	SetUserAgent(string $UserAgent):
 	static {
 
-		$this->UA = $UA;
+		$this->UserAgent = $UserAgent;
 
 		return $this;
 	}

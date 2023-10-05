@@ -29,7 +29,9 @@
 		"phpunit/phpunit": "9.6"
 	},
 	"require": {
-		"netherphp/common": "^5.0"
+		"netherphp/common": "^5.0",
+		"symfony/dom-crawler": "^6.3",
+		"symfony/css-selector": "^6.3"
 	},
 	"autoload": {
 		"psr-0": {
