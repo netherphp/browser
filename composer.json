@@ -1,4 +1,16 @@
 {
+	"name": "netherphp/browser",
+	"description": "Lightweight web requests.",
+	"keywords": [ "php", "utilities", "browser" ],
+	"license": "BSD-3-Clause",
+	"authors":[
+		{
+			"name": "Bob Majdak Jr",
+			"email": "bob@pegasusgate.net",
+			"homepage": "http://pegasusgate.net/+bob",
+			"role": "developer"
+		}
+	],
 	"minimum-stability": "dev",
 	"prefer-stable": true,
 	"config": {
