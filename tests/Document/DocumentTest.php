@@ -7,17 +7,15 @@ namespace NetherTestSuite\Browser\Document;
 
 use Nether\Browser;
 use Nether\Common;
-
-use PHPUnit\Framework\TestCase;
-use Error;
+use PHPUnit;
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
 
 class DocumentTest
-extends TestCase {
+extends PHPUnit\Framework\TestCase {
 
-	/** @test */
+	#[PHPUnit\Framework\Attributes\Test]
 	public function
 	TestBasic():
 	void {

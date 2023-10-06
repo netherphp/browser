@@ -57,22 +57,34 @@ extends Common\Prototype {
 	////////////////////////////////////////////////////////////////
 
 	static public function
-	FromFile(string $Filename):
-	static {
+	FromFile(?string $Filename):
+	?static {
+
+		if(!$Filename)
+		throw new Common\Error\RequiredDataMissing('Filename', 'string');
+
+		if(!file_exists($Filename))
+		throw new Common\Error\RequiredDataMissing('Filename', 'file');
+
+		////////
 
 		$HTML = file_get_contents($Filename);
-
 		$Output = static::FromHTML($HTML);
+
+		////////
 
 		return $Output;
 	}
 
 	static public function
-	FromHTML(string $Source):
-	static {
+	FromHTML(?string $Source):
+	?static {
+
+		if($Source === NULL)
+		return NULL;
 
 		$Output = new static([
-			'Source' => $Source
+			'Source' => $Source ?? ''
 		]);
 
 		return $Output;

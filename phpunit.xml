@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
-		bootstrap="vendor/autoload.php"
-		cacheResultFile=".phpunit.cache/test-results"
-		executionOrder="depends,defects"
-		beStrictAboutCoversAnnotation="true"
-		beStrictAboutOutputDuringTests="true"
-		beStrictAboutTodoAnnotatedTests="true"
-		convertDeprecationsToExceptions="true"
-		failOnRisky="true"
-		failOnWarning="true"
-		verbose="true">
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.3/phpunit.xsd"
+	cacheDirectory=".phpunit.cache"
+	bootstrap="vendor/autoload.php"
+	executionOrder="depends,defects"
+	failOnRisky="true"
+	failOnWarning="true"
+	displayDetailsOnTestsThatTriggerWarnings="true"
+	beStrictAboutOutputDuringTests="true"
+	beStrictAboutCoverageMetadata="true">
 
 	<testsuites>
 		<testsuite name="default">
@@ -18,14 +15,22 @@
 		</testsuite>
 	</testsuites>
 
-	<coverage cacheDirectory=".phpunit.cache/code-coverage" processUncoveredFiles="true">
+	<php>
+		<!--
+		bool NetherBrowserUnitTestOutreachProgram default TRUE
+		enables running tests against some remote services to do real world
+		tests of the library. setting this to false will prevent tests
+		against any of my managed test services.
+		-->
+		<const name="NetherBrowserUnitTestOutreachProgram" value="TRUE"/>
+	</php>
+
+	<source>
 		<include>
 			<directory suffix=".php">src</directory>
 		</include>
-	</coverage>
+	</source>
 
-	<php>
-		<const name="NetherBrowserUnitTestOutreachProgram" value="TRUE" />
-	</php>
+	<coverage/>
 
 </phpunit>

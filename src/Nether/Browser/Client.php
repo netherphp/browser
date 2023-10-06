@@ -135,15 +135,21 @@ extends Common\Prototype {
 	#[Common\Meta\Info('Fetch and digest data from the remote as HTML.')]
 	public function
 	FetchAsHTML():
-	Document {
+	?Document {
 
-		try {
-			$Doc = Document::FromHTML($this->Fetch());
-		}
+		$Source = NULL;
+		$Doc = NULL;
+		$Err = NULL;
 
-		catch(Exception $Err) {
-			throw $Err;
-		}
+		////////
+
+		try { $Source = $this->Fetch(); }
+		catch(Exception $Err) { throw $Err; }
+
+		try { $Doc = Document::FromHTML($Source); }
+		catch(Exception $Err) { throw $Err; }
+
+		////////
 
 		return $Doc;
 	}
@@ -190,7 +196,20 @@ extends Common\Prototype {
 	?string {
 
 		$CTX = $this->GenerateStreamContext();
-		$Data = file_get_contents($this->URL, FALSE, $CTX);
+
+		// hello darkness my old friend
+		// i've got to at-sign you again
+		// because standard out spam still does creep
+		// despite it being twenty twenty-three
+		// and the screaming in my brain, is an old refrain
+		// despite it being a sound thats silent
+
+		$Data = @file_get_contents($this->URL, FALSE, $CTX);
+
+		if($Data === FALSE)
+		return NULL;
+
+		////////
 
 		return $Data;
 	}
