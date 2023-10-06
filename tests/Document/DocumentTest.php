@@ -29,15 +29,15 @@ extends PHPUnit\Framework\TestCase {
 
 		$HTML = $Doc->GetSource();
 		$this->AssertIsString($HTML);
-		$this->AssertTrue(str_contains($HTML, '<html'));
-		$this->AssertTrue(str_contains($HTML, '<body'));
+		$this->AssertTrue(str_contains($HTML, '<html>'));
+		$this->AssertTrue(str_contains($HTML, '<body>'));
 
 		// test it can re-render it out.
 
 		$HTML = $Doc->GetHTML();
 		$this->AssertIsString($HTML);
-		$this->AssertTrue(str_contains($HTML, '<html'));
-		$this->AssertTrue(str_contains($HTML, '<body'));
+		$this->AssertTrue(str_contains($HTML, '<html>'));
+		$this->AssertTrue(str_contains($HTML, '<body>'));
 
 		return;
 	}

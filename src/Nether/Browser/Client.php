@@ -184,8 +184,14 @@ extends Common\Prototype {
 		$Data = curl_exec($CTX);
 		curl_close($CTX);
 
+		// @todo 2023-10-05 this is not really true there are many more
+		// errors not cert errors here thats just literally both the first
+		// i ran into and wanted to catch.
+
 		if(curl_errno($CTX) !== 0)
 		throw new Error\CertError(curl_error($CTX));
+
+		////////
 
 		return $Data;
 	}
@@ -201,8 +207,8 @@ extends Common\Prototype {
 		// i've got to at-sign you again
 		// because standard out spam still does creep
 		// despite it being twenty twenty-three
-		// and the screaming in my brain, is an old refrain
-		// despite it being a sound thats silent
+		// and the screaming in my brain is an old refrain
+		// you know that sound thats silent
 
 		$Data = @file_get_contents($this->URL, FALSE, $CTX);
 
