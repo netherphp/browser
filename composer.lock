@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "37463f43f383e4e8e2ddcbfc7505ae11",
+    "content-hash": "fccfd38a8e07574893e597063ebc95c9",
     "packages": [
         {
             "name": "brick/math",
@@ -293,16 +293,16 @@
         },
         {
             "name": "netherphp/common",
-            "version": "dev-master",
+            "version": "v5.0.28",
             "source": {
                 "type": "git",
                 "url": "https://github.com/netherphp/common.git",
-                "reference": "bda6c98c44ac2998c7c2a67eb5390b8733f6ad0a"
+                "reference": "7fcac6e1116d5e3a8c1298d92047c03fd30bcb92"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/netherphp/common/zipball/bda6c98c44ac2998c7c2a67eb5390b8733f6ad0a",
-                "reference": "bda6c98c44ac2998c7c2a67eb5390b8733f6ad0a",
+                "url": "https://api.github.com/repos/netherphp/common/zipball/7fcac6e1116d5e3a8c1298d92047c03fd30bcb92",
+                "reference": "7fcac6e1116d5e3a8c1298d92047c03fd30bcb92",
                 "shasum": ""
             },
             "require": {
@@ -318,7 +318,6 @@
                 "netherphp/standards": ">=0.1.9",
                 "phpunit/phpunit": "^9.6"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-0": {
@@ -344,9 +343,9 @@
             ],
             "support": {
                 "issues": "https://github.com/netherphp/common/issues",
-                "source": "https://github.com/netherphp/common/tree/master"
+                "source": "https://github.com/netherphp/common/tree/v5.0.28"
             },
-            "time": "2023-10-06T03:11:55+00:00"
+            "time": "2023-10-19T00:36:22+00:00"
         },
         {
             "name": "ozdemirburak/iris",
@@ -2797,9 +2796,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "netherphp/common": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
