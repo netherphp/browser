@@ -17,7 +17,7 @@ extends Common\Prototype {
 	protected ?string
 	$Source = NULL;
 
-	protected DomCrawler\Crawler
+	public DomCrawler\Crawler
 	$API;
 
 	////////////////////////////////////////////////////////////////
@@ -27,7 +27,33 @@ extends Common\Prototype {
 	OnReady(Common\Prototype\ConstructArgs $Args):
 	void {
 
+		if(!isset($this->API))
 		$this->API = new DomCrawler\Crawler($this->Source);
+
+		return;
+	}
+
+
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+
+	public function
+	Find(string $Selector):
+	mixed {
+
+		return new Document([
+			'API' => ($this->API)->filter($Selector)
+		]);
+	}
+
+	public function
+	Each(callable $Func):
+	void {
+
+		$El = NULL;
+
+		foreach($this->API as $El)
+		$Func($El);
 
 		return;
 	}
