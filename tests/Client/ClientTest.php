@@ -20,7 +20,7 @@ extends PHPUnit\Framework\TestCase {
 	SetupLibrary():
 	void {
 
-		Browser\Library::Reset();
+		new Browser\Library;
 
 		return;
 	}
