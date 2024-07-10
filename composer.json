@@ -29,7 +29,7 @@
 		"phpunit/phpunit": "^10.3"
 	},
 	"require": {
-		"netherphp/common": "^5.0.28",
+		"netherphp/common": "dev-master",
 		"symfony/dom-crawler": "^6.3",
 		"symfony/css-selector": "^6.3"
 	},
