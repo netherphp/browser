@@ -113,6 +113,15 @@ extends Common\Prototype {
 		return $CTX;
 	}
 
+	public function
+	Save(string $Filename):
+	static {
+
+		file_put_contents($Filename, $this->Fetch());
+
+		return $this;
+	}
+
 	#[Common\Meta\Info('Fetch and return the data from the remote.')]
 	public function
 	Fetch():
