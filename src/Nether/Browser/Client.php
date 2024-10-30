@@ -124,8 +124,13 @@ extends Common\Prototype {
 
 	#[Common\Meta\Info('Fetch and return the data from the remote.')]
 	public function
-	Fetch():
+	Fetch(?string $URL=NULL):
 	?string {
+
+		if($URL)
+		$this->SetURL($URL);
+
+		////////
 
 		$Output = match($this->Via) {
 			static::ViaCURL

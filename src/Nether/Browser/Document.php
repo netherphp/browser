@@ -39,7 +39,7 @@ extends Common\Prototype {
 
 	public function
 	Find(string $Selector):
-	mixed {
+	Document {
 
 		return new Document([
 			'API' => ($this->API)->filter($Selector)
@@ -63,6 +63,13 @@ extends Common\Prototype {
 	string {
 
 		return ($this->API)->text();
+	}
+
+	public function
+	Attr(string $Name):
+	string {
+
+		return ($this->API)->attr($Name);
 	}
 
 	////////////////////////////////////////////////////////////////
