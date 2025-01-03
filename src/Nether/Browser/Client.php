@@ -40,6 +40,10 @@ extends Common\Prototype {
 	protected ?string
 	$URL = NULL;
 
+	#[Common\Meta\PropertyObjectify]
+	protected Common\Datastore
+	$Headers;
+
 	////////////////////////////////////////////////////////////////
 	////////////////////////////////////////////////////////////////
 
@@ -148,7 +152,7 @@ extends Common\Prototype {
 
 	#[Common\Meta\Info('Fetch and digest data from the remote as HTML.')]
 	public function
-	FetchAsHTML():
+	FetchAsHTML(?string $URL=NULL):
 	?Document {
 
 		$Source = NULL;
@@ -157,7 +161,7 @@ extends Common\Prototype {
 
 		////////
 
-		try { $Source = $this->Fetch(); }
+		try { $Source = $this->Fetch($URL); }
 		catch(Exception $Err) { throw $Err; }
 
 		try { $Doc = Document::FromHTML($Source); }
@@ -170,10 +174,10 @@ extends Common\Prototype {
 
 	#[Common\Meta\Info('Fetch and digest data from the remote as JSON.')]
 	public function
-	FetchAsJSON():
+	FetchAsJSON(?string $URL=NULL):
 	?array {
 
-		$JSON = $this->Fetch();
+		$JSON = $this->Fetch($URL);
 
 		if(!$JSON)
 		return NULL;
@@ -219,7 +223,7 @@ extends Common\Prototype {
 
 		// hello darkness my old friend
 		// i've got to at-sign you again
-		// because standard out spam still does creep
+		// because standard output spam still does creep
 		// despite it being twenty twenty-three
 		// and the screaming in my brain is an old refrain
 		// you know that sound thats silent
