@@ -1,7 +1,7 @@
 <?php ##########################################################################
 ################################################################################
 
-namespace Nether\Browser\Remote;
+namespace Nether\Browser\Clients;
 
 use Nether\Browser;
 use Nether\Common;

@@ -23,9 +23,6 @@
 			"netherphp/composer-plugin": true
 		}
 	},
-	"bin": [
-		"bin/applemap.atl"
-	],
 	"require-dev": {
 		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
 		"netherphp/standards": "^0.2.9",
