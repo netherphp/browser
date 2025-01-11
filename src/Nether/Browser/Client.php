@@ -87,8 +87,17 @@ extends Common\Prototype {
 		// be set as a flag on this object which will then define the
 		// various context options as multiple are required.
 
+		$Headers = $this->Headers->MapKeyValue(
+			fn(string $K, string $V)
+			=> sprintf('%s: %s', $K, $V)
+		);
+
 		$Opts = [
-			'http' => [ 'method' => $this->Method, 'user_agent' => $this->UserAgent ],
+			'http' => [
+				'method'     => $this->Method,
+				'user_agent' => $this->UserAgent,
+				'header'     => $Headers->Revalue()->Export()
+			],
 			'ssl'  => [ ]
 		];
 
@@ -104,6 +113,11 @@ extends Common\Prototype {
 	GenerateCurlContext():
 	CurlHandle {
 
+		$Headers = $this->Headers->MapKeyValue(
+			fn(string $K, string $V)
+			=> sprintf('%s: %s', $K, $V)
+		);
+
 		// @todo 2023-10-05 at some point i am going to run into a case
 		// where i need it to ignore bad ssl to get a job done. that should
 		// be set as a flag on this object which will then define the
@@ -113,6 +127,7 @@ extends Common\Prototype {
 		curl_setopt($CTX, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($CTX, CURLOPT_FOLLOWLOCATION, TRUE);
 		curl_setopt($CTX, CURLOPT_USERAGENT, $this->UserAgent);
+		curl_setopt($CTX, CURLOPT_HTTPHEADER, $Headers->Revalue()->Export());
 
 		return $CTX;
 	}
@@ -230,6 +245,8 @@ extends Common\Prototype {
 
 		$Data = @file_get_contents($this->URL, FALSE, $CTX);
 
+		var_dump($this->URL, $Data);
+
 		if($Data === FALSE)
 		return NULL;
 
@@ -304,6 +321,42 @@ extends Common\Prototype {
 	static {
 
 		$this->Via = $Via;
+
+		return $this;
+	}
+
+	////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+
+	public function
+	SetHeader(string $Name, ?string $Value=NULL):
+	static {
+
+		if($Value !== NULL)
+		$this->Headers->Set($Name, $Value);
+
+		else
+		$this->Headers->Remove($Name);
+
+		////////
+
+		return $this;
+	}
+
+	public function
+	RemoveHeader(string $Name):
+	static {
+
+		$this->Headers->Remove($Name);
+
+		return $this;
+	}
+
+	public function
+	ClearHeaders():
+	static {
+
+		$this->Headers->Clear();
 
 		return $this;
 	}
