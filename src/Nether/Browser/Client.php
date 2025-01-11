@@ -245,7 +245,7 @@ extends Common\Prototype {
 
 		$Data = @file_get_contents($this->URL, FALSE, $CTX);
 
-		var_dump($this->URL, $Data);
+		//var_dump($this->URL, $Data);
 
 		if($Data === FALSE)
 		return NULL;
